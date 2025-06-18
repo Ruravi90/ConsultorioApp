@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
+             x:DataType="viewmodels:CitaDetalleViewModel"
+             x:Class="ConsultorioApp.Views.CitaDetallePage"
+             Title="Detalles de la Cita">
+
+    <!-- ✅ Usa el constructor vacío -->
+    <ContentPage.BindingContext>
+        <viewmodels:CitaDetalleViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <!-- Selector de paciente -->
+            <Picker ItemsSource="{Binding Pacientes}"
+                    SelectedItem="{Binding  Cita.PacienteId}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    Title="Seleccione un paciente" />
+
+            <!-- Fecha y hora -->
+            <DatePicker Date="{Binding Cita.Fecha}" Format="d" />
+            <TimePicker Time="{Binding Cita.Fecha, Converter={StaticResource TimeConverter}}" />
+
+            <!-- Motivo -->
+            <Entry Placeholder="Motivo de la cita" Text="{Binding Cita.Motivo}" />
+
+            <!-- Botones -->
+            <Button Text="Guardar" Command="{Binding GuardarCommand}" />
+            <Button Text="Cancelar" Command="{Binding CancelarCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

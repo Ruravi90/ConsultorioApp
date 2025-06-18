@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
+             x:DataType="viewmodels:PacientesViewModel"
+             x:Class="ConsultorioApp.Views.PacientesPage"
+             Title="Lista de Pacientes">
+
+    <ContentPage.BindingContext>
+        <viewmodels:PacientesViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20">
+            <Entry Placeholder="Buscar por nombre..." Text="{Binding FiltroNombre}" />
+
+            <Button Text="Nuevo Paciente" Command="{Binding NuevoPacienteCommand}" />
+
+            <CollectionView ItemsSource="{Binding Pacientes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Spacing="5">
+                            <Label Text="{Binding Nombre}" FontAttributes="Bold" />
+                            <Label Text="{Binding Telefono}" />
+                            <Button Text="Ver Detalle"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PacientesViewModel}}, Path=IrADetalleCommand}"
+                                    CommandParameter="{Binding .}" />
+                            <Button Text="Eliminar"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PacientesViewModel}}, Path=EliminarCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

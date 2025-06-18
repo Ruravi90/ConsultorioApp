@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell
+    x:Class="ConsultorioApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ConsultorioApp.Views"
+    BackgroundColor="#F5F5F5">
+
+    <!-- Header del menú lateral -->
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="Black" HeightRequest="100">
+                <Label Text="ConsultorioApp"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="20"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    
+
+    <!-- Items del menú lateral -->
+    <ShellContent Title="Inicio" Icon="home_icon.png" Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}" />
+    <ShellContent Title="Login" Icon="login_icon.png" Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Title="Registrar" Icon="user_add_icon.png" Route="RegistroPage" ContentTemplate="{DataTemplate views:RegistroPage}" />
+    <ShellContent Title="Pacientes" Icon="patient_icon.png" Route="PacientesPage" ContentTemplate="{DataTemplate views:PacientesPage}" />
+    <ShellContent Title="Citas" Icon="calendar_icon.png" Route="CitasPage" ContentTemplate="{DataTemplate views:CitasPage}" />
+
+</Shell>
