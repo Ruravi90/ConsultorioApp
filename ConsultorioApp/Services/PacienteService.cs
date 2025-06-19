@@ -1,42 +1,39 @@
-using ConsultorioApp.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ConsultorioApp.Database;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsultorioApp.Services;
-
-public class PacienteService
+namespace ConsultorioApp.Services
 {
-    private readonly AppDbContext _db;
-
-    public PacienteService(AppDbContext db)
+    public class PacienteService : IPacienteService
     {
-        _db = db;
-    }
+        private readonly AppDatabase _context;
 
-    public async Task<List<Paciente>> GetAll()
-    {
-        return await _db.Pacientes.ToListAsync();
-    }
+        public PacienteService(AppDatabase context) => _context = context;
 
-    public async Task Add(Paciente paciente)
-    {
-        await _db.Pacientes.AddAsync(paciente);
-        await _db.SaveChangesAsync();
-    }
+        public async Task<List<Paciente>> GetAllAsync() => await _context.Pacientes.GetAllAsync();
 
-    public async Task Update(Paciente paciente)
-    {
-        _db.Pacientes.Update(paciente);
-        await _db.SaveChangesAsync();
-    }
+        public async Task<Paciente> GetByIdAsync(int id) => await _context.Pacientes.GetByIdAsync(id);
 
-    public async Task Delete(int id)
-    {
-        var paciente = await _db.Pacientes.FindAsync(id);
-        if (paciente != null)
+        public async Task AddAsync(Paciente item)
         {
-            _db.Pacientes.Remove(paciente);
-            await _db.SaveChangesAsync();
+            await _context.Pacientes.AddAsync(item);
+        }
+
+        public async Task UpdateAsync(Paciente paciente)
+        {
+            await _context.Pacientes.UpdateAsync(paciente);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var rol = await _context.Roles.GetByIdAsync(id);
+            if (rol != null)
+            {
+                await _context.Roles.DeleteAsync(rol);
+            }
         }
     }
 }

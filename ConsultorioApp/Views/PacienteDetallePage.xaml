@@ -6,11 +6,6 @@
              x:Class="ConsultorioApp.Views.PacienteDetallePage"
              Title="Detalles del Paciente">
 
-    <!-- ✅ Usa el constructor vacío -->
-    <ContentPage.BindingContext>
-        <viewmodels:PacienteDetalleViewModel />
-    </ContentPage.BindingContext>
-
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Entry Placeholder="Nombre" Text="{Binding Paciente.Nombre}" />

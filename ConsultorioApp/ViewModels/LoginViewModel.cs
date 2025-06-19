@@ -4,13 +4,17 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ConsultorioApp.Interfaces;
+using ConsultorioApp.Services;
 using ConsultorioApp.Views;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 namespace ConsultorioApp.ViewModels;
 
 public partial class LoginViewModel : ObservableObject
 {
+    private readonly IUsuarioService _usuarioService;
     [ObservableProperty]
     private string nombreUsuario;
 
@@ -23,6 +27,11 @@ public partial class LoginViewModel : ObservableObject
     [ObservableProperty]
     private string contraseñaError;
 
+    public LoginViewModel(IUsuarioService usuarioService)
+    {
+        _usuarioService = usuarioService;
+    }
+
     [RelayCommand]
     private async Task IniciarSesion()
     {
@@ -31,12 +40,7 @@ public partial class LoginViewModel : ObservableObject
         // Validación del correo
         if (string.IsNullOrWhiteSpace(NombreUsuario))
         {
-            NombreUsuarioError = "El correo es obligatorio";
-            tieneErrores = true;
-        }
-        else if (!IsValidEmail(NombreUsuario))
-        {
-            NombreUsuarioError = "Ingrese un correo válido";
+            NombreUsuarioError = "El usuario es obligatorio";
             tieneErrores = true;
         }
         else
@@ -58,13 +62,19 @@ public partial class LoginViewModel : ObservableObject
         if (tieneErrores) return;
 
         // Aquí va la lógica de autenticación
-        if (NombreUsuario == "admin@example.com" && Contraseña == "1234")
+        bool validado = await _usuarioService.ValidarUsuario(NombreUsuario, Contraseña);
+
+        if (validado)
         {
+            var usuario = await _usuarioService.GetUsuarioPorUsuario(NombreUsuario);
+            Preferences.Set("usuario_logueado", true);
+            Preferences.Set("usuario_id", usuario.Id);
+            Preferences.Set("usuario_rol", usuario.Rol.Nombre);
             await Shell.Current.GoToAsync("//MainPage");
         }
         else
         {
-            await Shell.Current.DisplayAlert("Error", "Usuario o contraseña incorrectos.", "Aceptar");
+            Toast.Make("Usuario o contraseña incorrectos.").Show();
         }
     }
 

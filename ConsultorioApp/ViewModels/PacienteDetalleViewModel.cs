@@ -1,29 +1,25 @@
+using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ConsultorioApp.Data;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using ConsultorioApp.Services;
+using Microsoft.Maui.Controls;
 
 namespace ConsultorioApp.ViewModels;
 
 public partial class PacienteDetalleViewModel : ObservableObject
 {
-    private readonly AppDbContext _dbContext;
-
-    private readonly PacienteService _service;
+    private readonly IPacienteService _pacienteService;
 
     [ObservableProperty] private Paciente paciente;
-
-    // ✅ Constructor vacío para soporte desde XAML
-    public PacienteDetalleViewModel() : this(null)
-    {
-    }
+    
 
     // 📦 Constructor principal
-    public PacienteDetalleViewModel(Paciente paciente = null)
+    public PacienteDetalleViewModel(IPacienteService pacienteService )
     {
-        _dbContext = new AppDbContext();
-        _service = new PacienteService(_dbContext);
+        _pacienteService = pacienteService;
         Paciente = paciente ?? new Paciente();
     }
 
@@ -40,9 +36,9 @@ public partial class PacienteDetalleViewModel : ObservableObject
         try
         {
             if (Paciente.Id == 0)
-                await _service.Add(Paciente);
+                await _pacienteService.AddAsync(Paciente);
             else
-                await _service.Update(Paciente);
+                await _pacienteService.UpdateAsync(Paciente);
 
             await Shell.Current.DisplayAlert("Éxito", "Datos guardados correctamente.", "Aceptar");
             await Shell.Current.GoToAsync("..");

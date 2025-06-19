@@ -1,30 +1,27 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ConsultorioApp.Data;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using ConsultorioApp.Services;
+using Microsoft.Maui.Controls;
 
 namespace ConsultorioApp.ViewModels;
 
 public partial class CitaDetalleViewModel : ObservableObject
 {
-    private readonly CitaService _citaService;
-    private readonly AppDbContext _dbContext;
-    private readonly PacienteService _pacienteService;
+    private readonly ICitaService _citaService;
+    private readonly IPacienteService _pacienteService;
 
     [ObservableProperty] public Cita cita;
 
-    // ✅ Constructor vacío para soporte XAML
-    public CitaDetalleViewModel() : this(null)
-    {
-    }
-
+    
     // 📦 Constructor principal
-    public CitaDetalleViewModel(Cita cita = null)
+    public CitaDetalleViewModel(ICitaService citaService, IPacienteService pacienteService)
     {
-        _dbContext = new AppDbContext();
-        _citaService = new CitaService(_dbContext);
-        _pacienteService = new PacienteService(_dbContext);
+        _citaService = citaService;
+        _pacienteService = pacienteService;
 
         cita = cita ?? new Cita();
         CargarPacientes();
@@ -34,7 +31,7 @@ public partial class CitaDetalleViewModel : ObservableObject
 
     private async Task CargarPacientes()
     {
-        var lista = await _pacienteService.GetAll();
+        var lista = await _pacienteService.GetAllAsync();
         foreach (var p in lista) Pacientes.Add(p);
     }
 
@@ -61,9 +58,9 @@ public partial class CitaDetalleViewModel : ObservableObject
         try
         {
             if (cita.Id == 0)
-                await _citaService.Add(cita);
+                await _citaService.AddAsync(cita);
             else
-                await _citaService.Update(cita);
+                await _citaService.UpdateAsync(cita);
 
             await Shell.Current.DisplayAlert("Éxito", "Cita guardada correctamente.", "Aceptar");
             await Shell.Current.GoToAsync("..");

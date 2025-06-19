@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConsultorioApp.Views.SplashScreenPage"
+             BackgroundColor="#F5F5F5">
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Image Source="logo.png" WidthRequest="120" HeightRequest="120" />
+        <Label Text="ConsultorioApp"
+               FontSize="24"
+               TextColor="#007AFF"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               Margin="0,20,0,0"/>
+        <ActivityIndicator Color="#007AFF" IsRunning="True" />
+    </VerticalStackLayout>
+</ContentPage>

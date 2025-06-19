@@ -6,11 +6,7 @@
              x:DataType="viewmodels:CitasViewModel"
              x:Class="ConsultorioApp.Views.CitasPage"
              Title="Lista de Citas">
-
-    <ContentPage.BindingContext>
-        <viewmodels:CitasViewModel />
-    </ContentPage.BindingContext>
-
+    
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Button Text="Nueva Cita" Command="{Binding NuevaCitaCommand}" />

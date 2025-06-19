@@ -1,42 +1,39 @@
-using ConsultorioApp.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ConsultorioApp.Database;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ConsultorioApp.Services;
-
-public class CitaService
+namespace ConsultorioApp.Services
 {
-    private readonly AppDbContext _db;
-
-    public CitaService(AppDbContext db)
+    public class CitaService : ICitaService
     {
-        _db = db;
-    }
+        private readonly AppDatabase _context;
 
-    public async Task<List<Cita>> GetAll()
-    {
-        return await _db.Citas.Include(c => c.Paciente).ToListAsync();
-    }
+        public CitaService(AppDatabase context) => _context = context;
 
-    public async Task Add(Cita cita)
-    {
-        await _db.Citas.AddAsync(cita);
-        await _db.SaveChangesAsync();
-    }
+        public async Task<List<Cita>> GetAllAsync() => await _context.Citas.GetAllAsync();
 
-    public async Task Update(Cita cita)
-    {
-        _db.Citas.Update(cita);
-        await _db.SaveChangesAsync();
-    }
+        public async Task<Cita> GetByIdAsync(int id) => await _context.Citas.GetByIdAsync(id);
 
-    public async Task Delete(int id)
-    {
-        var cita = await _db.Citas.FindAsync(id);
-        if (cita != null)
+        public async Task AddAsync(Cita cita)
         {
-            _db.Citas.Remove(cita);
-            await _db.SaveChangesAsync();
+            await _context.Citas.AddAsync(cita);
+        }
+
+        public async Task UpdateAsync(Cita cita)
+        {
+            await _context.Citas.UpdateAsync(cita);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var rol = await _context.Roles.GetByIdAsync(id);
+            if (rol != null)
+            {
+                await _context.Roles.DeleteAsync(rol);
+            }
         }
     }
 }

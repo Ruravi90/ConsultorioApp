@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
+             x:DataType="viewmodels:PerfilViewModel"
+             x:Class="ConsultorioApp.Views.PerfilPage"
+             Title="Mi Perfil">
+
+    <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="20">
+        
+        <!-- Foto de perfil -->
+        <Image Source="profile_icon.png"
+               WidthRequest="100"
+               HeightRequest="100"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20"/>
+
+        <!-- Campos editables -->
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
+            <Label Text="Nombre Completo:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold"/>
+            <Entry Grid.Row="0" Grid.Column="1"
+                   Placeholder="Nombre completo"
+                   Text="{Binding Usuario.NombreCompleto}"
+                   IsEnabled="{Binding PuedeEditar}" />
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
+            <Label Text="Correo electrónico:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold"/>
+            <Entry Grid.Row="0" Grid.Column="1"
+                   Placeholder="Correo electrónico"
+                   Text="{Binding Usuario.NombreUsuario}"
+                   IsEnabled="False" />
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
+            <Label Text="Teléfono:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold"/>
+            <Entry Grid.Row="0" Grid.Column="1"
+                   Placeholder="Teléfono"
+                   Text="{Binding Usuario.Telefono}"
+                   IsEnabled="{Binding PuedeEditar}" />
+        </Grid>
+
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
+            <Label Text="Dirección:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold"/>
+            <Entry Grid.Row="0" Grid.Column="1"
+                   Placeholder="Dirección"
+                   Text="{Binding Usuario.Direccion}"
+                   IsEnabled="{Binding PuedeEditar}" />
+        </Grid>
+
+        <!-- Selector de Rol -->
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
+            <Label Text="Rol:" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" />
+                
+            <Picker Grid.Row="0" Grid.Column="1"
+                    ItemsSource="{Binding Roles}"
+                    SelectedItem="{Binding RolSeleccionado}"
+                    ItemDisplayBinding="{Binding Nombre}"
+                    Title="Seleccione un rol" 
+                    IsEnabled="False"/>
+        </Grid>
+
+        <!-- Botón: Guardar Cambios -->
+        <Button Text="Guardar Cambios" 
+                Command="{Binding GuardarCambiosCommand}"
+                Style="{StaticResource ButtonPrimary}"
+                Margin="0,40,0,0"
+                IsEnabled="{Binding PuedeEditar}" />
+
+        <!-- Botón: Cambiar Contraseña -->
+        <Button Text="Cambiar Contraseña"
+                Command="{Binding IrACambiarContraseñaCommand}"
+                Style="{StaticResource ButtonSecondary}"
+                Margin="0,20,0,0" />
+    </VerticalStackLayout>
+</ScrollView>
+</ContentPage>

@@ -1,13 +1,20 @@
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ConsultorioApp.Interfaces;
+using ConsultorioApp.Models;
+using ConsultorioApp.Services;
 using ConsultorioApp.Views;
+using Microsoft.Maui.Controls;
 
 namespace ConsultorioApp.ViewModels;
 
 public partial class RegistroViewModel : ObservableObject
 {
+    private readonly IUsuarioService _usuarioService;
     [ObservableProperty]
     private string nombreUsuario;
 
@@ -19,6 +26,11 @@ public partial class RegistroViewModel : ObservableObject
 
     [ObservableProperty]
     private string confirmarContraseña;
+    
+    public RegistroViewModel(IUsuarioService usuarioService)
+    {
+        _usuarioService = usuarioService;
+    }
 
     [RelayCommand]
     private async Task Registrar()
@@ -37,6 +49,14 @@ public partial class RegistroViewModel : ObservableObject
             Toast.Make("Las contraseñas no coinciden.").Show();
             return;
         }
+        
+        var nuevoUsuario = new Usuario
+        {
+            NombreUsuario = NombreUsuario,
+            Contraseña = BCrypt.Net.BCrypt.HashPassword(Contraseña)
+        };
+
+        await _usuarioService.RegistrarUsuario(nuevoUsuario);
 
         // Aquí puedes conectar con SQLite o API
         Toast.Make("Registro correcto!").Show();

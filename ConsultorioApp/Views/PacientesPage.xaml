@@ -7,10 +7,6 @@
              x:Class="ConsultorioApp.Views.PacientesPage"
              Title="Lista de Pacientes">
 
-    <ContentPage.BindingContext>
-        <viewmodels:PacientesViewModel />
-    </ContentPage.BindingContext>
-
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Entry Placeholder="Buscar por nombre..." Text="{Binding FiltroNombre}" />

@@ -1,5 +1,5 @@
 using System.Linq;
-using ConsultorioApp.Data;
+using ConsultorioApp.Database;
 using ConsultorioApp.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,21 +7,32 @@ namespace ConsultorioApp.Helpers;
 
 public static class DatabaseHelper
 {
-    public static void  InicializarAsync()
+    public async static void  InicializarAsync(AppDatabase dbContext)
     {
-        var dbContext = new AppDbContext();
-        dbContext.Database.Migrate(); 
+        //Agrega un usuario por defecto si no hay ninguno
+        var roles = await  dbContext.Roles.AnyAsync();
+        if (!roles)
+        {
+            dbContext.Roles.AddAsync(new Rol { Nombre = "Admin" });
+            dbContext.Roles.AddAsync(new Rol { Nombre = "Médico" });
+            dbContext.Roles.AddAsync(new Rol { Nombre = "Paciente" });
+        }
 
         // Agrega un usuario por defecto si no hay ninguno
-        if (!dbContext.Usuarios.Any())
+        var usuarios = await  dbContext.Usuarios.AnyAsync();
+        if (!usuarios)
         {
-            dbContext.Usuarios.Add(new Usuario
+            var admin = new Usuario
             {
-                NombreUsuario = "admin@admin",
-                Contraseña = "1234"
-            });
+                NombreUsuario = "ruravi@icloud.com",
+                Contraseña = BCrypt.Net.BCrypt.HashPassword("Ruravi90"),
+                NombreCompleto = "Admin",
+                RolId = 1,
+                Telefono = "1234567890"
+            };
 
-            dbContext.SaveChangesAsync();
+            dbContext.Usuarios.AddAsync(admin);
         }
+        
     }
 }

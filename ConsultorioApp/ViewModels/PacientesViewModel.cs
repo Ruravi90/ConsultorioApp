@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ConsultorioApp.Data;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using ConsultorioApp.Views;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +14,20 @@ namespace ConsultorioApp.ViewModels;
 
 public partial class PacientesViewModel : ObservableObject
 {
+    private readonly IPacienteService _pacienteService;
     [ObservableProperty] private string? filtroNombre;
 
     public ObservableCollection<Paciente> Pacientes { get; set; } = new();
+    // 📦 Constructor principal
+    public PacientesViewModel(IPacienteService pacienteService )
+    {
+        _pacienteService = pacienteService;
+    }
 
     [RelayCommand]
     private async Task CargarPacientes()
     {
-        await using var db = new AppDbContext();
-        var lista = await db.Pacientes.ToListAsync();
+        var lista = await _pacienteService.GetAllAsync();
 
         Pacientes.Clear();
         foreach (var p in lista) Pacientes.Add(p);
@@ -56,10 +61,8 @@ public partial class PacientesViewModel : ObservableObject
         if (paciente == null) return;
         var confirm = await Shell.Current.DisplayAlert("Eliminar", "¿Está seguro?", "Sí", "No");
         if (!confirm) return;
-
-        await using var db = new AppDbContext();
-        db.Pacientes.Remove(paciente);
-        await db.SaveChangesAsync();
+        
+        await _pacienteService.DeleteAsync(paciente.Id);
         await CargarPacientes();
     }
 }

@@ -19,13 +19,15 @@
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
-    
 
     <!-- Items del menú lateral -->
+    <ShellContent Shell.FlyoutItemIsVisible="False" Route="SplashScreenPage" ContentTemplate="{DataTemplate views:SplashScreenPage}" />
+    <ShellContent Shell.FlyoutItemIsVisible="False" Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Shell.FlyoutItemIsVisible="False" Route="CambiarContraseñaPage" ContentTemplate="{DataTemplate views:CambiarContraseñaPage}" />
     <ShellContent Title="Inicio" Icon="home_icon.png" Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}" />
-    <ShellContent Title="Login" Icon="login_icon.png" Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
-    <ShellContent Title="Registrar" Icon="user_add_icon.png" Route="RegistroPage" ContentTemplate="{DataTemplate views:RegistroPage}" />
     <ShellContent Title="Pacientes" Icon="patient_icon.png" Route="PacientesPage" ContentTemplate="{DataTemplate views:PacientesPage}" />
     <ShellContent Title="Citas" Icon="calendar_icon.png" Route="CitasPage" ContentTemplate="{DataTemplate views:CitasPage}" />
+    <ShellContent Title="Registro" Route="RegistroPage" ContentTemplate="{DataTemplate views:RegistroPage}" />
+    <ShellContent Title="Mi Perfil" Icon="profile_icon.png" Route="PerfilPage" ContentTemplate="{DataTemplate views:PerfilPage}" />
 
 </Shell>

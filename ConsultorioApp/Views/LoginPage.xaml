@@ -5,20 +5,13 @@
              xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
              x:DataType="viewmodels:LoginViewModel"
              x:Class="ConsultorioApp.Views.LoginPage"
-             BackgroundColor="#F5F5F5"
              Title="Iniciar Sesión">
-
-    <ContentPage.BindingContext>
-        <viewmodels:LoginViewModel />
-    </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout Spacing="30" Padding="40" VerticalOptions="Center">
 
             <!-- Logo -->
             <Image Source="logo.png"
-                   WidthRequest="100"
-                   HeightRequest="100"
                    HorizontalOptions="Center"
                    Margin="0,0,0,20"/>
 

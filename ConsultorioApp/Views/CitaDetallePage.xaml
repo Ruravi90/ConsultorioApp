@@ -7,11 +7,6 @@
              x:Class="ConsultorioApp.Views.CitaDetallePage"
              Title="Detalles de la Cita">
 
-    <!-- ✅ Usa el constructor vacío -->
-    <ContentPage.BindingContext>
-        <viewmodels:CitaDetalleViewModel />
-    </ContentPage.BindingContext>
-
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <!-- Selector de paciente -->

@@ -2,7 +2,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ConsultorioApp.Data;
+using ConsultorioApp.Database;
+using ConsultorioApp.Interfaces;
 using ConsultorioApp.Models;
 using ConsultorioApp.Views;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,18 @@ namespace ConsultorioApp.ViewModels;
 
 public class CitasViewModel : ObservableObject
 {
+    private readonly ICitaService _citaService;
     public ObservableCollection<Cita> Citas { get; set; } = new();
 
+    // 📦 Constructor principal
+    public CitasViewModel(ICitaService citaService)
+    {
+        _citaService = citaService;
+        CargarCitas();
+    }
     private async Task CargarCitas()
     {
-        await using var db = new AppDbContext();
-        var lista = await db.Citas.Include(c => c.Paciente).OrderBy(c => c.Fecha).ToListAsync();
+        var lista = await _citaService.GetAllAsync();
 
         Citas.Clear();
         foreach (var c in lista) Citas.Add(c);
@@ -33,10 +40,8 @@ public class CitasViewModel : ObservableObject
         if (cita == null) return;
         var confirm = await Shell.Current.DisplayAlert("Eliminar", "¿Está seguro?", "Sí", "No");
         if (!confirm) return;
-
-        await using var db = new AppDbContext();
-        db.Citas.Remove(cita);
-        await db.SaveChangesAsync();
+        
+        await _citaService.DeleteAsync(cita.Id);
         await CargarCitas();
     }
 }

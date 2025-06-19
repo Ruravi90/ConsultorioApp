@@ -5,22 +5,14 @@
              xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
              x:DataType="viewmodels:RegistroViewModel"
              x:Class="ConsultorioApp.Views.RegistroPage"
-             BackgroundColor="#F5F5F5"
              Title="Registrar Usuario">
-       
-       <ContentPage.BindingContext>
-              <viewmodels:RegistroViewModel />
-       </ContentPage.BindingContext>
        
     <ScrollView>
         <VerticalStackLayout Spacing="30" Padding="40" VerticalOptions="Center">
-
-            <!-- Título -->
-            <Label Text="Crear Cuenta"
-                   FontSize="32"
+               
+            <Image Source="logo.png"
                    HorizontalOptions="Center"
-                   TextColor="#007AFF"
-                   FontAttributes="Bold" />
+                   Margin="0,0,0,20"/>
 
             <!-- Campo: Nombre de usuario -->
             <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto">
