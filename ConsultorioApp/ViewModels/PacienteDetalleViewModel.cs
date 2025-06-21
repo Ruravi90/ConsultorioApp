@@ -26,7 +26,7 @@ public partial class PacienteDetalleViewModel : ObservableObject
     [RelayCommand]
     private async Task Guardar()
     {
-        if (string.IsNullOrWhiteSpace(Paciente.Nombre) ||
+        if (string.IsNullOrWhiteSpace(Paciente.NombreCompleto) ||
             string.IsNullOrWhiteSpace(Paciente.Telefono))
         {
             await Shell.Current.DisplayAlert("Error", "Todos los campos son obligatorios.", "Aceptar");

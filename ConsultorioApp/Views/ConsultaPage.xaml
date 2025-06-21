@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ConsultorioApp.ViewModels"
+             xmlns:converters="clr-namespace:ConsultorioApp.Helpers"
+             xmlns:models="clr-namespace:ConsultorioApp.Models"
+             x:DataType="viewmodels:ConsultaViewModel"
+             x:Class="ConsultorioApp.Views.ConsultaPage"
+             Title="Iniciar Consulta">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Selector de paciente -->
+            <Label Text="Buscar o Crear Paciente" FontAttributes="Bold" />
+
+            <Picker ItemsSource="{Binding Pacientes}"
+                    ItemDisplayBinding="{Binding NombreCompleto}"
+                    SelectedItem="{Binding PacienteSeleccionado}"
+                    Title="Seleccione un paciente..." >
+            </Picker>
+
+            <!-- Datos del paciente seleccionado -->
+            <Frame BackgroundColor="#F5F5F5"
+                   BorderColor="#E0E0E0"
+                   Margin="0,10,0,0"
+                   Padding="10"
+                   IsVisible="{Binding PacienteSeleccionado, Converter={StaticResource NullToFalseConverter}}">
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Nombre:" FontAttributes="Bold"/>
+                    <Label Text="{Binding PacienteSeleccionado.NombreCompleto}" />
+
+                    <Label Text="DNI:" FontAttributes="Bold"/>
+                    <Label Text="{Binding PacienteSeleccionado.Dni}" />
+
+                    <Label Text="Teléfono:" FontAttributes="Bold"/>
+                    <Label Text="{Binding PacienteSeleccionado.Telefono}" />
+
+                    <Label Text="Historial Clínico:" FontAttributes="Bold"/>
+                    <Label Text="{Binding PacienteSeleccionado.HistorialClinico}" 
+                           LineBreakMode="WordWrap"
+                           MaxLines="4"
+                           TextColor="#666" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Nuevo paciente -->
+            <Frame BackgroundColor="#FAFAFA"
+                   BorderColor="#EEEEEE"
+                   Margin="0,30,0,0"
+                   Padding="10"
+                   IsVisible="{Binding PacienteSeleccionado, Converter={StaticResource NullToTrueConverter}}">
+                <VerticalStackLayout Spacing="10" >
+                    <Label Text="Nuevo paciente" FontAttributes="Bold" FontSize="18"/>
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Entry Placeholder="Nombre completo"
+                               Text="{Binding NuevoPaciente.NombreCompleto}" />
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Entry Placeholder="DNI"
+                               Text="{Binding NuevoPaciente.Dni}" />
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Entry Placeholder="Teléfono"
+                               Text="{Binding NuevoPaciente.Telefono}" />
+                    </Border>
+
+                    <DatePicker Date="{Binding NuevoPaciente.FechaNacimiento}"
+                                Format="dd/MM/yyyy"
+                                Margin="0,10,0,0"
+                                VerticalOptions="Center" />
+
+                    <Button Text="Agregar Paciente"
+                            Command="{Binding AgregarPacienteCommand}"
+                            Style="{StaticResource ButtonPrimary}"
+                            Margin="0,20,0,0" />
+                </VerticalStackLayout>
+            </Frame>
+            <!-- Campos de nueva consulta -->
+            <Frame BackgroundColor="#FAFAFA"
+                   BorderColor="#EEEEEE"
+                   Margin="0,30,0,0"
+                   Padding="10">
+                
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Detalles de la Consulta" FontAttributes="Bold" FontSize="18"/>
+
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Editor Placeholder="Motivo de la consulta"
+                                Text="{Binding NuevaConsulta.Motivo}"
+                                HeightRequest="100" />
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Editor Placeholder="Síntomas"
+                                Text="{Binding NuevaConsulta.Sintomas}"
+                                HeightRequest="100" />
+                    </Border>
+
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FFFFFF"
+                            Padding="4"
+                            Margin="0,10,0,0">
+                        <Editor Placeholder="Observaciones iniciales"
+                                Text="{Binding NuevaConsulta.Observaciones}"
+                                HeightRequest="100" />
+                    </Border>
+
+                    <Button Text="Guardar Consulta"
+                            Command="{Binding GuardarConsultaCommand}"
+                            Style="{StaticResource ButtonPrimary}"
+                            Margin="0,30,0,0" />
+                    <Button Text="Limpiar Consulta"
+                            Command="{Binding LimpiarFormularioCommand}"
+                            Style="{StaticResource ButtonSecondary}"
+                            Margin="0,20,0,0" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

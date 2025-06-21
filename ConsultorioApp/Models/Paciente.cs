@@ -1,14 +1,17 @@
 using System;
 using SQLite;
 
-namespace ConsultorioApp.Models;
-
-public class Paciente
+namespace ConsultorioApp.Models
 {
-    [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
-    public string Nombre { get; set; }
-    public string Apellido { get; set; }
-    public string Telefono { get; set; }
-    public DateTime FechaNacimiento { get; set; }
+    public class Paciente
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
+        public string NombreCompleto { get; set; }
+        public string Dni { get; set; }
+        public string Telefono { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public string HistorialClinico { get; set; }
+    }
 }

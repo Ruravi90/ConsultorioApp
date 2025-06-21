@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using ConsultorioApp.Models;
+using ConsultorioApp.Services;
 using SQLite;
 
 namespace ConsultorioApp.Database

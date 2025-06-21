@@ -25,6 +25,7 @@
     <ShellContent Shell.FlyoutItemIsVisible="False" Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
     <ShellContent Shell.FlyoutItemIsVisible="False" Route="CambiarContraseñaPage" ContentTemplate="{DataTemplate views:CambiarContraseñaPage}" />
     <ShellContent Title="Inicio" Icon="home_icon.png" Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}" />
+    <ShellContent Title="Consulta" Icon="home_icon.png" Route="ConsultaPage" ContentTemplate="{DataTemplate views:ConsultaPage}" />
     <ShellContent Title="Pacientes" Icon="patient_icon.png" Route="PacientesPage" ContentTemplate="{DataTemplate views:PacientesPage}" />
     <ShellContent Title="Citas" Icon="calendar_icon.png" Route="CitasPage" ContentTemplate="{DataTemplate views:CitasPage}" />
     <ShellContent Title="Registro" Route="RegistroPage" ContentTemplate="{DataTemplate views:RegistroPage}" />

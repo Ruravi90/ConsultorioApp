@@ -1,5 +1,6 @@
 using System.IO;
 using ConsultorioApp.Models;
+using ConsultorioApp.Services;
 using Microsoft.Maui.Storage;
 using SQLite;
 
@@ -13,18 +14,18 @@ namespace ConsultorioApp.Database
         public IRolStore Roles { get; }
         public ICitaStore Citas { get; }
         public IPacienteStore Pacientes { get; }
-        
+        public IConsultaStore Consultas { get; }
 
-        public AppDatabase()
+        public AppDatabase(SQLiteAsyncConnection connection)
         {
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "consultorio.db");
-            _connection = new SQLiteAsyncConnection(dbPath);
-
-            // Inicializa las stores
-            Usuarios = new UsuarioStore(_connection);
-            Roles = new RolStore(_connection);
-            Citas = new CitaStore(_connection);
-            Pacientes = new PacienteStore(_connection);
+            _connection = connection;
+            
+            // Inicializa los stores con la conexión compartida
+            Usuarios = new UsuarioStore(connection);
+            Roles = new RolStore(connection);
+            Citas = new CitaStore(connection);
+            Pacientes = new PacienteStore(connection);
+            Consultas = new ConsultaStore(connection);
         }
     }
 }

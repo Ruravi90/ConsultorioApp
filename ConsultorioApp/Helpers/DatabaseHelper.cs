@@ -1,14 +1,22 @@
 using System.Linq;
+using System.Threading.Tasks;
 using ConsultorioApp.Database;
 using ConsultorioApp.Models;
 using Microsoft.EntityFrameworkCore;
+using SQLite;
 
 namespace ConsultorioApp.Helpers;
 
 public static class DatabaseHelper
 {
-    public async static void  InicializarAsync(AppDatabase dbContext)
+    private static AppDatabase _appDatabase;
+
+    public static async Task InicializarAsync(string dbPath)
     {
+        var connection = new SQLiteAsyncConnection(dbPath);
+        // Inicializa AppDatabase con esa conexión
+        var dbContext = new AppDatabase(connection);
+        
         //Agrega un usuario por defecto si no hay ninguno
         var roles = await  dbContext.Roles.AnyAsync();
         if (!roles)
@@ -24,9 +32,9 @@ public static class DatabaseHelper
         {
             var admin = new Usuario
             {
-                NombreUsuario = "ruravi@icloud.com",
+                NombreUsuario = "admin",
                 Contraseña = BCrypt.Net.BCrypt.HashPassword("Ruravi90"),
-                NombreCompleto = "Admin",
+                NombreCompleto = "Ruravi Aguilar",
                 RolId = 1,
                 Telefono = "1234567890"
             };

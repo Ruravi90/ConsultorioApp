@@ -42,7 +42,7 @@ public partial class PacientesViewModel : ObservableObject
             return;
         }
 
-        var resultado = Pacientes.Where(p => p.Nombre.Contains(FiltroNombre, StringComparison.OrdinalIgnoreCase))
+        var resultado = Pacientes.Where(p => p.NombreCompleto.Contains(FiltroNombre, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         Pacientes.Clear();
